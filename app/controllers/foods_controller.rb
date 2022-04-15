@@ -1,8 +1,10 @@
 class FoodsController < ApplicationController
   def index
+    @foods = params[:letter] ? Food.by_letter(params[:letter]) : Food.all
   end
 
   def show
+
   end
 
   def new
