@@ -92,5 +92,36 @@ RSpec.describe FoodsController do
     end
   end
 
+  describe 'PATCH #update' do
+    before :each do
+      @food = create(:food)
+    end
+    context "with valid attributes" do
+      it "locates the requested @food" do
+        patch :update, params: id: @food, food: attributes_for(:food)
+        expect(assigns(:food)).to eq @food
+      end
+      it "changes @food's attributes" do
+        patch :update, params: {id: @food, food: attributes_for(:food, name: 'Nasi Uduk')}
+        @food.reload
+        expect(@food.name).to eq('Nasi Uduk')
+      end
+      it "redirects to the food" do
+        patch :update, params: {id: @food, food: attributes_for(:food)}
+        expect(response).to redirect_to @food
+      end
+    end
 
+    context "with invalid attributes" do
+      it "does not update the food in the database" do
+        patch :update, params: {id: @food, food: attributes_for(:invalid_food, name: 'Nasi Uduk')}
+        expect(@food.name).not_to eq('Nasi Uduk')
+      end
+      it "re-renders the :edit template" do
+        patch :update, params: { id: @food, food: attributes_for(:invalid_food) }
+        expect(assigns(:food)).to eq @food
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end
