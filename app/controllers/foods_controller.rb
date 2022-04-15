@@ -5,7 +5,7 @@ class FoodsController < ApplicationController
 
   def show
     @food = Food.find_by(id: params[:id])
-    
+
   end
 
   def new
@@ -26,8 +26,16 @@ class FoodsController < ApplicationController
   end
 
   def update
+    @food = Food.find_by(id: params[:id])
+    @food.update(params.require(:food).permit(:name))
+    if @food.save
+      redirect_to food_path(@food)
+    else
+      render :edit, status: 422
+    end
   end
 
   def destroy
+    
   end
 end
