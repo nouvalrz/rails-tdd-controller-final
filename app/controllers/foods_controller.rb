@@ -12,6 +12,7 @@ class FoodsController < ApplicationController
   end
 
   def edit
+    @food = Food.find_by(id: params[:id])
   end
 
   def create
