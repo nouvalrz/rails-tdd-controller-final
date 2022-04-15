@@ -4,7 +4,7 @@ class FoodsController < ApplicationController
   end
 
   def show
-
+    @food = Food.find_by(id: params[:id])
   end
 
   def new
