@@ -53,4 +53,18 @@ RSpec.describe FoodsController do
     end
   end
 
+  describe 'GET #edit' do
+    it "assigns the requested food to @food" do
+      food = create(:food)
+      get :edit, params: { id: food }
+      expect(assigns(:food)).to eq food
+    end
+    it "renders the :edit template" do
+      food = create(:food)
+      get :edit, params: { id: food }
+      expect(response).to render_template :edit
+    end
+  end
+
+
 end
