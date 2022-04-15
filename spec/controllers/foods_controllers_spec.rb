@@ -29,4 +29,17 @@ RSpec.describe FoodsController do
       end
     end
   end
+
+  describe 'GET #show' do
+    it "assigns the requested food to @food" do
+      food = create(:food)
+      get :show, params: { id: food }
+      expect(assigns(:food)).to eq food
+    end
+    it "renders the :show template" do
+      get :show
+      expect(response).to render_template :show
+    end
+  end
+
 end
