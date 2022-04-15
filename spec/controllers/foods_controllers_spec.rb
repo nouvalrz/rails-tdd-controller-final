@@ -98,7 +98,7 @@ RSpec.describe FoodsController do
     end
     context "with valid attributes" do
       it "locates the requested @food" do
-        patch :update, params: id: @food, food: attributes_for(:food)
+        patch :update, params: {id: @food, food: attributes_for(:food)}
         expect(assigns(:food)).to eq @food
       end
       it "changes @food's attributes" do
@@ -122,6 +122,21 @@ RSpec.describe FoodsController do
         expect(assigns(:food)).to eq @food
         expect(response).to have_http_status(:unprocessable_entity)
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before :each do
+      @food = create(:food)
+    end
+    it "deletes the food from the database" do
+      expect{
+        delete :destroy, params: {id: @food}
+      }.to change(Food, :count).by(-1)
+    end
+    it "redirects to foods#index" do
+      delete :destroy, params: { id: @food }
+      expect(response).to redirect_to foods_url
     end
   end
 end
