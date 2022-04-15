@@ -5,6 +5,7 @@ class FoodsController < ApplicationController
 
   def show
     @food = Food.find_by(id: params[:id])
+    
   end
 
   def new
@@ -16,6 +17,12 @@ class FoodsController < ApplicationController
   end
 
   def create
+    @food = Food.new(params.require(:food).permit(:name, :description, :price))
+    if @food.save
+      redirect_to food_path(@food)
+    else
+      render :new
+    end
   end
 
   def update
